@@ -3,24 +3,23 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-class Test():
-    def __init__(self):
+class Test:
+    def __init__(self, base_url):
         self.driver_chrome = None
+        self.base_url = base_url
+        self.options = self.configuration()
+        self.service = ChromeService(ChromeDriverManager().install())
 
-    def open_browser(self):
-        # базовый url
-        base_url = 'https://www.saucedemo.com/'
-
-        # добавить опции/оставить браузер открытым
+    def configuration(self):
         options = webdriver.ChromeOptions()
         options.add_experimental_option("detach", True)
-        # автоматическая загрузка драйвера
-        service = ChromeService(ChromeDriverManager().install())
+        return options
 
+    def open_browser(self):
         # открытие браузера с параметрами
         self.driver_chrome = webdriver.Chrome(
-            options=options,
-            service=service
+            options=self.options,
+            service=self.service
         )
         # переход по url в браузере/развернуть на весь экран
         self.driver_chrome.get(base_url)
@@ -28,5 +27,9 @@ class Test():
         print("Браузер открыт.")
 
 
-start_test = Test()
-start_test.open_browser()
+if __name__ == "__main__":
+    base_url = 'https://www.saucedemo.com/'
+    start_test = Test(base_url)
+    start_test.open_browser()
+
+
