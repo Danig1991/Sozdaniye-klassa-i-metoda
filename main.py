@@ -13,15 +13,18 @@ service = ChromeService(ChromeDriverManager().install())
 
 
 class Test():
+    def __init__(self):
+        self.driver_chrome = None
+
     def open_browser(self):
         # открытие браузера с параметрами
-        driver_chrome = webdriver.Chrome(
+        self.driver_chrome = webdriver.Chrome(
             options=options,
             service=service
         )
         # переход по url в браузере/развернуть на весь экран
-        driver_chrome.get(base_url)
-        driver_chrome.maximize_window()
+        self.driver_chrome.get(base_url)
+        self.driver_chrome.maximize_window()
         print("Браузер открыт.")
 
 
